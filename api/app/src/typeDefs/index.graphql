@@ -1,0 +1,22 @@
+# Custom Scalars
+scalar DateTime
+
+type Success {
+	success: Boolean!
+}
+
+type Query {
+	# User
+	users: [User]!
+	user(id: ID!): User
+	sessions(clientId: ID!): [Session]!
+}
+
+type Mutation {
+	# User
+	CreateUser(user: UserCreateInput!): User!
+	UpdateUser(id: ID!, user: UserUpdateInput): User!
+
+	#Payment
+	deleteSessions(sessions: SessionDeleteInput!): Success!
+}

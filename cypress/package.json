@@ -1,0 +1,14 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Raif Harik",
+  "license": "MIT",
+  "scripts": {
+    "cypressRun": "npx cypress run ",
+    "cypressOpen": "npx cypress open"
+  },
+  "dependencies": {
+    "cypress": "^7.7.0"
+  }
+}

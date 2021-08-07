@@ -1,0 +1,14 @@
+type Session {
+	EntityId: ID!
+	CreatedDate: DateTime!
+	Cost: Int
+	AppointmentType: String
+	SessionUsed: Boolean
+	TrainerPaid: Boolean
+	InArrears: Boolean
+	ClientId: ID!
+}
+
+input SessionDeleteInput {
+	sessions: [ID]!
+}

@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://web:3000",
+  "watchForFileChanges": false,
+  "fixturesFolder": "app/src/fixtures",
+  "integrationFolder": "app/src/integration",
+  "pluginsFile": "app/src/plugins",
+  "screenshotsFolder": "app/src/screenshots",
+  "supportFile": "app/src/support",
+  "videosFolder": "app/src/videos",
+  "video": false
+}

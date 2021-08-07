@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"target": "ES2020",
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"lib": ["ES2020"],
+		"strict": true,
+		"strictFunctionTypes": true,
+		"inlineSources": true,
+		"downlevelIteration": true,
+		"rootDir": "app",
+		"outDir": "./app/build",
+		"baseUrl": "."
+	},
+	"include": ["./"],
+	"exclude": ["node_modules", "build"]
+}

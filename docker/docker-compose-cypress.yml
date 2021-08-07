@@ -1,0 +1,49 @@
+version: "3.0"
+services:
+  web:
+    depends_on:
+      - api
+    build:
+      context: ../web
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../web/app:/home/omg/app
+    command: yarn start #top -b #
+    environment:
+      APPLICATION_NAME: web
+    ports:
+      - 3000:3000
+    env_file:
+      - ./../web/.env
+  api:
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - ./../api/app:/home/current/app
+    command: yarn start #top -b #
+    ports:
+      - 4000:4000
+    env_file:
+      - ./../api/.env
+    environment:
+      APPLICATION_NAME: api
+  postgres:
+    image: postgres
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../api/.env
+
+  cypress:
+    build:
+      context: ../cypress
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - web
+    volumes:
+      - ./../cypress/app:/home/current/app
+      - ./../cypress/cypress-docker.json:/home/current/cypress.json:ro
+    command: npm run cypressRun #top -b #cypress run #
