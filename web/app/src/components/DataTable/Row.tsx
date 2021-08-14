@@ -6,10 +6,13 @@ import styled from 'styled-components';
 type TableRowProps<T> = {
 	columns: TableColumn<T>[];
 	dataRow: T;
+	setCheckBoxSelection?: (row: T) => void;
 };
+
 const Row = <T,>({
 	columns,
 	dataRow,
+	setCheckBoxSelection,
 }: TableRowProps<T>): JSX.Element | null => {
 	const cells = columns.map((column, idx) => {
 		let dataValue = dataRow[column.propertyName as keyof T];
@@ -22,6 +25,7 @@ const Row = <T,>({
 				column: column,
 				value: dataValue,
 				row: dataRow,
+				setCheckBoxSelection,
 			});
 		}
 

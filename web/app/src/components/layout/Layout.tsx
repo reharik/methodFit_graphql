@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { ContentHeader } from "./ContentHeader";
 import footer from "./../../images/footer-shadow-left.png";
 import { RouteProvider } from "../Providers/RouteProvider/RouteProvider";
+import {SessionsList} from "../SessionsList";
 
 const Layout = ():JSX.Element => {
 	return (
@@ -21,7 +22,7 @@ const Layout = ():JSX.Element => {
 				<StyledContentArea>
 					<ContentHeader title="Daily Payments" />
 					<StyledContent>
-						<h2>My first Apollo app 🚀</h2>
+						<SessionsList/>
 						<RouteProvider />
 					</StyledContent>
 					<StyledFooter />

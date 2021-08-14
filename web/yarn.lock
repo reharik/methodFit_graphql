@@ -1524,13 +1524,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@graphql-codegen/cli@^1.21.6":
-  version "1.21.7"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.21.7.tgz#ac90afdf0d166bc725c60d2269482e65af1c7848"
-  integrity sha512-6EOS3hMDFeLPO6OopASvXbQirhrHjFd0Qb4iGLnueW/WIETk8mOsbyfqlBnm6uehW6bUjdLDu25MUjo+4rkOvA==
+"@graphql-codegen/cli@1.21.6":
+  version "1.21.6"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.21.6.tgz#d06b5f6cb625541f3981d69f99966e520b958072"
+  integrity sha512-wtBk4lk/YxG6MrxnBOxE9nCfR9PNDjaqA8CF9hi6Q8jiSl4sV03tC2R+gE7+2EI8J6Xa1bxZe15LnBhVwb/mUA==
   dependencies:
     "@graphql-codegen/core" "1.17.10"
-    "@graphql-codegen/plugin-helpers" "^1.18.8"
+    "@graphql-codegen/plugin-helpers" "^1.18.7"
     "@graphql-tools/apollo-engine-loader" "^6.2.5"
     "@graphql-tools/code-file-loader" "^6.3.1"
     "@graphql-tools/git-loader" "^6.2.6"
@@ -3387,6 +3387,11 @@
   version "4.14.171"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.171.tgz#f01b3a5fe3499e34b622c362a46a609fdb23573b"
   integrity sha512-7eQ2xYLLI/LsicL2nejW9Wyko3lcpN6O/z0ZLHrEQsg280zIdCv1t/0m6UtBjUHokCGBQ3gYTbHzDkZ1xOBwwg==
+
+"@types/luxon@^1.27.1":
+  version "1.27.1"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.27.1.tgz#aceeb2d5be8fccf541237e184e37ecff5faa9096"
+  integrity sha512-cPiXpOvPFDr2edMnOXlz3UBDApwUfR+cpizvxCy0n3vp9bz/qe8BWzHPIEFcy+ogUOyjKuCISgyq77ELZPmkkg==
 
 "@types/markdown-to-jsx@^6.11.3":
   version "6.11.3"
@@ -10674,6 +10679,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+luxon@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.0.1.tgz#b41ca2f1f5ad8099c18603ae6c36a7794039daf0"
+  integrity sha512-8Eawf81c9ZlQj62W3eq4mp+C7SAIAnmaS7ZuEAiX503YMcn+0C1JnMQRtfaQj6B5qTZLgHv0F4H5WabBCvi1fw==
 
 lz-string@^1.4.4:
   version "1.4.4"

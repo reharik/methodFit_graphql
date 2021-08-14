@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
 import { Row } from './Row';
+import { bulkSelectionColumn } from './CheckBox';
 
 export enum SortDir {
 	asc = 'asc',
 	desc = 'desc',
 }
 
-type HeaderColumnComponentProps<T> = {
+export type HeaderColumnComponentProps<T> = {
 	column: TableColumn<T>;
+	toggleSelectAll?: () => void;
+	allSelected?: boolean;
 };
 
-export type RowColumnProps<T> = {
+export interface RowColumnProps<T> {
 	column: TableColumn<T>;
-	value: T[keyof T] | string;
+	value: T[keyof T];
 	row?: T;
-};
+	setCheckBoxSelection?: (row: T) => void;
+}
 
 export type TableColumn<T> = {
 	propertyName: string;
@@ -30,11 +34,14 @@ export type TableColumn<T> = {
 	sortable?: boolean;
 	sortDir?: SortDir;
 	sortProperty?: string;
+	isBulkColumn?: boolean;
 };
 
 type DataTableProps<T> = {
 	columns: TableColumn<T>[];
 	tableData: T[];
+	bulkSelection?: boolean;
+	identityColumn: string;
 };
 
 const sortPredicate = <T,>(sortDir: SortDir, sortProperty: string) => {
@@ -47,22 +54,66 @@ const sortPredicate = <T,>(sortDir: SortDir, sortProperty: string) => {
 	};
 };
 
-const DataTable = <T,>({
+const DataTable = <T extends { metadata?: { selected?: boolean } }>({
 	columns,
 	tableData = [],
+	bulkSelection = false,
+	identityColumn = 'id',
 }: DataTableProps<T>): JSX.Element => {
 	const [workingData, setWorkingData] = useState(tableData);
+	const [allSelected, setAllSelected] = useState(false);
+
+	const allColumns = bulkSelection
+		? [bulkSelectionColumn() as TableColumn<T>, ...columns]
+		: columns;
 
 	const sortData = (sortDir: SortDir, sortProperty: string) => {
 		const pred = sortPredicate(sortDir, sortProperty);
-		setWorkingData([...workingData.sort(pred)]);
+		setWorkingData([...workingData].sort(pred));
+	};
+
+	const toggleSelectAll = () => {
+		setWorkingData(
+			workingData.map((row) => {
+				row.metadata = { selected: !allSelected };
+				return row;
+			})
+		);
+		setAllSelected(!allSelected);
+	};
+
+	const setCheckBoxSelection = (row: T): void => {
+		setWorkingData(
+			workingData.map((r) => {
+				if (
+					r[identityColumn as keyof T] ===
+					row[identityColumn as keyof T]
+				) {
+					r.metadata = { selected: !r.metadata?.selected };
+				}
+				return r;
+			})
+		);
+		if (allSelected) {
+			setAllSelected(false);
+		}
 	};
 
 	return (
 		<>
-			<Header columns={columns} onSortData={sortData} />
+			<Header
+				columns={allColumns}
+				onSortData={sortData}
+				toggleSelectAll={toggleSelectAll}
+				allSelected={allSelected}
+			/>
 			{workingData.map((data, idx) => (
-				<Row columns={columns} dataRow={data} key={idx} />
+				<Row
+					columns={allColumns}
+					dataRow={data}
+					setCheckBoxSelection={setCheckBoxSelection}
+					key={idx}
+				/>
 			))}
 		</>
 	);

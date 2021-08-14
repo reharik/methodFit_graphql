@@ -8,14 +8,25 @@ import styled from 'styled-components';
 type HeaderProps<T> = {
 	columns: TableColumn<T>[];
 	onSortData: (sortDir: SortDir, sortProperty: string) => void;
+	toggleSelectAll?: () => void;
+	allSelected?: boolean;
 };
-const Header = <T,>({ columns, onSortData }: HeaderProps<T>): JSX.Element => {
+const Header = <T,>({
+	columns,
+	onSortData,
+	toggleSelectAll,
+	allSelected,
+}: HeaderProps<T>): JSX.Element => {
 	return (
 		<StyledHeader>
 			{columns.map((column, idx) => {
 				let value;
 				if (column.headerColumnComponent) {
-					value = column.headerColumnComponent({ column });
+					value = column.headerColumnComponent({
+						column,
+						toggleSelectAll,
+						allSelected,
+					});
 				} else if (column.headerDisplay) {
 					value = column.headerDisplay;
 				} else {

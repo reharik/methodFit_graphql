@@ -1,0 +1,12 @@
+query GetSessions($clientId: ID!) {
+  sessions(clientId: $clientId) {
+    EntityId
+    CreatedDate
+    Cost
+    AppointmentType
+    SessionUsed
+    TrainerPaid
+    InArrears
+    ClientId
+  }
+}
