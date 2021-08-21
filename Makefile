@@ -29,6 +29,7 @@ cypressOpen:
 
 codeGen:
 	cd ./api; yarn gen;
+	sleep 2.5
 	cd ./web; yarn gen;
 
 yarn:

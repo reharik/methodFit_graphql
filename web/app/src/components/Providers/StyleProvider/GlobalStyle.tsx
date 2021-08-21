@@ -148,7 +148,7 @@ const typographyCSS = css(
 		color: ${color.bodyText};
 		font-family: ${baseFont};
 		font-weight: ${weight.regular};
-		font-size: ${fontSize.__50__};
+		font-size: ${fontSize._16};
 		line-height: 22px;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -184,67 +184,7 @@ const typographyCSS = css(
 		}
 	}
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		font-family: ${baseFont};
-		font-weight: ${weight.semiBold};
-		margin-bottom: ${spacing.sm};
-	}
 
-	h1 {
-		font-size: ${fontSize.__500__};
-		font-weight: ${weight.regular};
-		line-height: 1.25;
-		/* stylelint-disable-next-line max-nesting-depth */
-		${breakpoints.tabletUp} {
-			font-size: ${fontSize.__600__};
-			line-height: 47px;
-		}
-	}
-
-	h2 {
-		font-size: ${fontSize.__350__};
-		line-height: 1.428571429;
-		/* stylelint-disable-next-line max-nesting-depth */
-		${breakpoints.tabletUp} {
-			font-size: ${fontSize.__400__};
-			line-height: 39.3px;
-		}
-	}
-
-	h3 {
-		font-size: ${fontSize.__100__};
-		line-height: 1.6;
-		/* stylelint-disable-next-line max-nesting-depth */
-		${breakpoints.tabletUp} {
-			font-size: ${fontSize.__200__};
-			line-height: 26px;
-		}
-	}
-
-	h4 {
-		font-size: ${fontSize.__50__};
-		line-height: 1.6;
-		/* stylelint-disable-next-line max-nesting-depth */
-		${breakpoints.tabletUp} {
-			font-size: ${fontSize.__100__};
-			line-height: 20px;
-		}
-	}
-
-	h5 {
-		font-size: ${fontSize.__25__};
-		line-height: 1.333333333;
-		/* stylelint-disable-next-line max-nesting-depth */
-		${breakpoints.tabletUp} {
-			font-size: ${fontSize.__25__};
-			line-height: 14.63px;
-		}
-	}
 	`
 );
 

@@ -1,16 +1,32 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { DataTable, RowColumnProps } from './DataTable';
+import { DataTable } from './DataTable';
+import { DataTableProps, RowColumnProps, RowMetadata } from './types.d';
+import styled from 'styled-components';
 
 export default {
 	title: 'src/components/DataTable',
 	component: DataTable,
 } as ComponentMeta<typeof DataTable>;
 
-const Template: ComponentStory<typeof DataTable> = (args: any) => (
-	<DataTable {...args} />
-);
+type DataType = {
+	firstName: string;
+	age: number;
+	lastName: string;
+	email: string;
+	id: number;
+	dob: string;
+	metadata: RowMetadata;
+};
+
+// const Template: ComponentStory<typeof DataTable> = (
+// 	args: DataTableProps<DataType>
+// ) => <DataTable {...args} />;
+
+const Template: ComponentStory<typeof DataTable> = (
+	args: DataTableProps<any>
+) => <DataTable<DataType> {...args} />;
 
 const tableData = [
 	{
@@ -76,6 +92,20 @@ AllFeatures.args = {
 		},
 	],
 	tableData,
+	bulkSelection: true,
+	rowDecorator: (row) => {
+		const x = row as DataType;
+		if (x.age < 13) {
+			return StyledDisabledRow;
+		}
+	},
+	metadataDecorator: (row) => {
+		const x = row as DataType;
+		return {
+			...x.metadata,
+			disabled: x.age > 13,
+		};
+	},
 };
 
 export const Simple = Template.bind({});
@@ -171,7 +201,6 @@ TableWithFormattedCellDataAndCustomCellComponent.args = {
 };
 
 export const SortableTable = Template.bind({});
-
 SortableTable.args = {
 	columns: [
 		{
@@ -192,3 +221,90 @@ SortableTable.args = {
 	],
 	tableData,
 };
+
+export const CheckboxTable = Template.bind({});
+CheckboxTable.args = {
+	columns: [
+		{
+			propertyName: 'firstName',
+		},
+		{
+			propertyName: 'lastName',
+			sortable: true,
+		},
+		{
+			propertyName: 'email',
+			width: '200px',
+		},
+		{
+			propertyName: 'age',
+			sortable: true,
+		},
+	],
+	tableData,
+	bulkSelection: true,
+};
+
+export const CheckboxTableWithMetaFunction = Template.bind({});
+CheckboxTableWithMetaFunction.args = {
+	columns: [
+		{
+			propertyName: 'firstName',
+		},
+		{
+			propertyName: 'lastName',
+			sortable: true,
+		},
+		{
+			propertyName: 'email',
+			width: '200px',
+		},
+		{
+			propertyName: 'age',
+			sortable: true,
+		},
+	],
+	tableData,
+	bulkSelection: true,
+	metadataDecorator: (row) => {
+		const x = row as DataType;
+		return {
+			...x.metadata,
+			disabled: x.age < 13,
+		};
+	},
+};
+
+export const CheckboxTableWithRowDecorator = Template.bind({});
+CheckboxTableWithRowDecorator.args = {
+	columns: [
+		{
+			propertyName: 'firstName',
+		},
+		{
+			propertyName: 'lastName',
+			sortable: true,
+		},
+		{
+			propertyName: 'email',
+			width: '200px',
+		},
+		{
+			propertyName: 'age',
+			sortable: true,
+		},
+	],
+	tableData,
+	bulkSelection: true,
+	rowDecorator: (row) => {
+		const x = row as DataType;
+		if (x.age < 13) {
+			return StyledDisabledRow;
+		}
+	},
+};
+
+const StyledDisabledRow = styled.div`
+	background-color: gray;
+	border: 5px solid black;
+`;

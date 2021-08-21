@@ -1,30 +1,20 @@
-import React from "react";
-// import MenuContainer from "./../../containers/MenuContainer";
-import { MenuItemList } from "./Menu/MenuItemList";
-// import HeaderContainer from "./../../containers/HeaderContainer";
-import { Header } from "./Header";
-import styled from "styled-components";
-import { ContentHeader } from "./ContentHeader";
-import footer from "./../../images/footer-shadow-left.png";
-import { RouteProvider } from "../Providers/RouteProvider/RouteProvider";
-import {SessionsList} from "../SessionsList";
+import React from 'react';
+import { MenuItemList } from './Menu/MenuItemList';
+import { Header } from './Header';
+import styled from 'styled-components';
+import footer from './../../images/footer-shadow-left.png';
+import { RouteProvider } from '../Providers/RouteProvider/RouteProvider';
 
-const Layout = ():JSX.Element => {
+const Layout = (): JSX.Element => {
 	return (
 		<div>
-			{/* <HeaderContainer /> */}
 			<Header />
 			<StyledBody>
 				<StyledSide>
-					{/* <Menu /> */}
 					<MenuItemList />
 				</StyledSide>
 				<StyledContentArea>
-					<ContentHeader title="Daily Payments" />
-					<StyledContent>
-						<SessionsList/>
-						<RouteProvider />
-					</StyledContent>
+					<RouteProvider />
 					<StyledFooter />
 				</StyledContentArea>
 			</StyledBody>
@@ -56,12 +46,6 @@ const StyledContentArea = styled.div`
 	width: 83%;
 	margin: 0;
 	min-height: 100%;
-`;
-
-const StyledContent = styled.div`
-	background-color: white;
-	width: 100%;
-	border: 1px solid #d9d9d9;
 `;
 
 const StyledFooter = styled.div`

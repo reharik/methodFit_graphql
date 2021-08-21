@@ -1,12 +1,38 @@
-query GetSessions($clientId: ID!) {
-  sessions(clientId: $clientId) {
-    EntityId
-    CreatedDate
-    Cost
-    AppointmentType
-    SessionUsed
-    TrainerPaid
-    InArrears
-    ClientId
-  }
+query GetPurchaseSessions($clientId: ID!, $paymentId: ID!) {
+	purchases(clientId: $clientId, paymentId: $paymentId) {
+		EntityId
+		CreatedDate
+		Cost
+		AppointmentType
+		SessionUsed
+		TrainerPaid
+		InArrears
+		ClientId
+	}
+}
+
+mutation RemovePurchaseSessions(
+	$sessionIds: [ID!]!
+	$clientId: ID!
+	$paymentId: ID!
+) {
+	deleteSessions(
+		input: {
+			sessions: $sessionIds
+			clientId: $clientId
+			paymentId: $paymentId
+		}
+	) {
+		success
+		sessions {
+			EntityId
+			CreatedDate
+			Cost
+			AppointmentType
+			SessionUsed
+			TrainerPaid
+			InArrears
+			ClientId
+		}
+	}
 }

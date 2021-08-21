@@ -16,11 +16,17 @@ export type Scalars = {
 };
 
 
+export type DeleteSessionsResponse = {
+  __typename?: 'DeleteSessionsResponse';
+  success: Scalars['Boolean'];
+  sessions?: Maybe<Array<Maybe<Session>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   CreateUser: User;
   UpdateUser: User;
-  deleteSessions: Success;
+  deleteSessions?: Maybe<DeleteSessionsResponse>;
 };
 
 
@@ -36,14 +42,14 @@ export type MutationUpdateUserArgs = {
 
 
 export type MutationDeleteSessionsArgs = {
-  sessions: SessionDeleteInput;
+  input: SessionDeleteInput;
 };
 
 export type Query = {
   __typename?: 'Query';
   users: Array<Maybe<User>>;
   user?: Maybe<User>;
-  sessions: Array<Maybe<Session>>;
+  purchases: Array<Maybe<Session>>;
 };
 
 
@@ -52,8 +58,9 @@ export type QueryUserArgs = {
 };
 
 
-export type QuerySessionsArgs = {
+export type QueryPurchasesArgs = {
   clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
 };
 
 export type Session = {
@@ -66,10 +73,13 @@ export type Session = {
   TrainerPaid?: Maybe<Scalars['Boolean']>;
   InArrears?: Maybe<Scalars['Boolean']>;
   ClientId: Scalars['ID'];
+  TrainerId: Scalars['ID'];
 };
 
 export type SessionDeleteInput = {
-  sessions: Array<Maybe<Scalars['ID']>>;
+  sessions: Array<Scalars['ID']>;
+  clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
 };
 
 export type Success = {
@@ -186,13 +196,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<any>;
+  DeleteSessionsResponse: ResolverTypeWrapper<any>;
+  Boolean: ResolverTypeWrapper<any>;
   Mutation: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<any>;
   Query: ResolverTypeWrapper<{}>;
   Session: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
-  Boolean: ResolverTypeWrapper<any>;
   SessionDeleteInput: ResolverTypeWrapper<any>;
   Success: ResolverTypeWrapper<any>;
   User: ResolverTypeWrapper<any>;
@@ -203,13 +214,14 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   DateTime: any;
+  DeleteSessionsResponse: any;
+  Boolean: any;
   Mutation: {};
   ID: any;
   Query: {};
   Session: any;
   Int: any;
   String: any;
-  Boolean: any;
   SessionDeleteInput: any;
   Success: any;
   User: any;
@@ -221,16 +233,22 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type DeleteSessionsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteSessionsResponse'] = ResolversParentTypes['DeleteSessionsResponse']> = {
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  sessions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Session']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   CreateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'user'>>;
   UpdateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id'>>;
-  deleteSessions?: Resolver<ResolversTypes['Success'], ParentType, ContextType, RequireFields<MutationDeleteSessionsArgs, 'sessions'>>;
+  deleteSessions?: Resolver<Maybe<ResolversTypes['DeleteSessionsResponse']>, ParentType, ContextType, RequireFields<MutationDeleteSessionsArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  sessions?: Resolver<Array<Maybe<ResolversTypes['Session']>>, ParentType, ContextType, RequireFields<QuerySessionsArgs, 'clientId'>>;
+  purchases?: Resolver<Array<Maybe<ResolversTypes['Session']>>, ParentType, ContextType, RequireFields<QueryPurchasesArgs, 'clientId' | 'paymentId'>>;
 };
 
 export type SessionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
@@ -242,6 +260,7 @@ export type SessionResolvers<ContextType = Context, ParentType extends Resolvers
   TrainerPaid?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   InArrears?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   ClientId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  TrainerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -263,6 +282,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type Resolvers<ContextType = Context> = {
   DateTime?: GraphQLScalarType;
+  DeleteSessionsResponse?: DeleteSessionsResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Session?: SessionResolvers<ContextType>;

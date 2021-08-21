@@ -1,48 +1,14 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Header } from './Header';
 import { Row } from './Row';
 import { bulkSelectionColumn } from './CheckBox';
-
-export enum SortDir {
-	asc = 'asc',
-	desc = 'desc',
-}
-
-export type HeaderColumnComponentProps<T> = {
-	column: TableColumn<T>;
-	toggleSelectAll?: () => void;
-	allSelected?: boolean;
-};
-
-export interface RowColumnProps<T> {
-	column: TableColumn<T>;
-	value: T[keyof T];
-	row?: T;
-	setCheckBoxSelection?: (row: T) => void;
-}
-
-export type TableColumn<T> = {
-	propertyName: string;
-	// TODO: Fix the issue with this and DataTables.stories.tsx
-	formatProperty?: (format: RowColumnProps<T>) => T[keyof T];
-	rowColumnComponent?: (format: RowColumnProps<T>) => JSX.Element;
-	width?: string;
-	headerDisplay?: string;
-	headerColumnComponent?: (
-		format: HeaderColumnComponentProps<T>
-	) => JSX.Element;
-	sortable?: boolean;
-	sortDir?: SortDir;
-	sortProperty?: string;
-	isBulkColumn?: boolean;
-};
-
-type DataTableProps<T> = {
-	columns: TableColumn<T>[];
-	tableData: T[];
-	bulkSelection?: boolean;
-	identityColumn: string;
-};
+import {
+	BulkPropsType,
+	DataTableProps,
+	RowMetadata,
+	SortDir,
+	TableColumn,
+} from './types.d';
 
 const sortPredicate = <T,>(sortDir: SortDir, sortProperty: string) => {
 	return (a: T, b: T): number => {
@@ -54,49 +20,58 @@ const sortPredicate = <T,>(sortDir: SortDir, sortProperty: string) => {
 	};
 };
 
-const DataTable = <T extends { metadata?: { selected?: boolean } }>({
+const DataTable = <T,>({
 	columns,
 	tableData = [],
 	bulkSelection = false,
 	identityColumn = 'id',
+	metadataDecorator,
+	rowDecorator,
+	setSelectedRows,
 }: DataTableProps<T>): JSX.Element => {
-	const [workingData, setWorkingData] = useState(tableData);
+	const tableDataWithMetadata = useCallback(
+		() =>
+			tableData.map((r) => {
+				let metadata = {};
+				if (metadataDecorator) {
+					metadata = { ...metadata, ...metadataDecorator(r) };
+				}
+				return { ...r, metadata };
+			}),
+		[metadataDecorator, tableData]
+	);
+
+	const [workingData, setWorkingData] = useState(tableDataWithMetadata());
 	const [allSelected, setAllSelected] = useState(false);
 
+	useEffect(() => {
+		setWorkingData(tableDataWithMetadata);
+	}, [tableDataWithMetadata]);
+
+	const updateWorkingData = (data: (T & { metadata: RowMetadata })[]) => {
+		if (setSelectedRows) {
+			const ids = data
+				.filter((d) => d.metadata.selected)
+				.map((d) => d[identityColumn as keyof T]);
+			setSelectedRows(ids);
+		}
+		setWorkingData(data);
+	};
+
+	const bulkProps: BulkPropsType<T> = {
+		workingData,
+		updateWorkingData,
+		allSelected,
+		setAllSelected,
+		identityColumn,
+	};
 	const allColumns = bulkSelection
-		? [bulkSelectionColumn() as TableColumn<T>, ...columns]
+		? [bulkSelectionColumn(bulkProps) as TableColumn<T>, ...columns]
 		: columns;
 
 	const sortData = (sortDir: SortDir, sortProperty: string) => {
 		const pred = sortPredicate(sortDir, sortProperty);
-		setWorkingData([...workingData].sort(pred));
-	};
-
-	const toggleSelectAll = () => {
-		setWorkingData(
-			workingData.map((row) => {
-				row.metadata = { selected: !allSelected };
-				return row;
-			})
-		);
-		setAllSelected(!allSelected);
-	};
-
-	const setCheckBoxSelection = (row: T): void => {
-		setWorkingData(
-			workingData.map((r) => {
-				if (
-					r[identityColumn as keyof T] ===
-					row[identityColumn as keyof T]
-				) {
-					r.metadata = { selected: !r.metadata?.selected };
-				}
-				return r;
-			})
-		);
-		if (allSelected) {
-			setAllSelected(false);
-		}
+		updateWorkingData([...workingData].sort(pred));
 	};
 
 	return (
@@ -104,14 +79,13 @@ const DataTable = <T extends { metadata?: { selected?: boolean } }>({
 			<Header
 				columns={allColumns}
 				onSortData={sortData}
-				toggleSelectAll={toggleSelectAll}
 				allSelected={allSelected}
 			/>
 			{workingData.map((data, idx) => (
 				<Row
 					columns={allColumns}
 					dataRow={data}
-					setCheckBoxSelection={setCheckBoxSelection}
+					rowDecorator={rowDecorator}
 					key={idx}
 				/>
 			))}
@@ -119,4 +93,5 @@ const DataTable = <T extends { metadata?: { selected?: boolean } }>({
 	);
 };
 
+export * from './types.d';
 export { DataTable };

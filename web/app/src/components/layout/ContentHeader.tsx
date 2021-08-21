@@ -6,15 +6,24 @@
  *
  */
 
-import React from "react";
-import styled from "styled-components";
-import silverHeader from "./../../images/content-header-silver.png";
+import styled from 'styled-components';
+import silverHeader from './../../images/content-header-silver.png';
 
-type ContentHeaderProps= {title:string};
-export const ContentHeader = ({ title }:ContentHeaderProps):JSX.Element => {
+type ContentHeaderProps = {
+	title: string;
+	LeftComponent?: React.ComponentType;
+	RightComponent?: React.ComponentType;
+};
+export const ContentHeader = ({
+	LeftComponent,
+	title,
+	RightComponent,
+}: ContentHeaderProps): JSX.Element => {
 	return (
 		<StyledContentHeader>
+			{LeftComponent ? <LeftComponent /> : <div></div>}
 			<StyledTitle>{title}</StyledTitle>
+			{RightComponent ? <RightComponent /> : <div></div>}
 		</StyledContentHeader>
 	);
 };
@@ -24,7 +33,7 @@ const StyledContentHeader = styled.div`
 	height: 41px;
 	background: url(${silverHeader}) repeat-x scroll 0 0 transparent;
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: flex-start;
 `;
 

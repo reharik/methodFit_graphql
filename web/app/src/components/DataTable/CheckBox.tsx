@@ -10,14 +10,18 @@ import React from 'react';
 import {
 	TableColumn,
 	HeaderColumnComponentProps,
-	RowColumnProps,
-} from './DataTable';
+	CheckboxRowColumnProps,
+	BulkPropsType,
+	RowMetadata,
+} from './types.d';
 
-const CheckBox = <T extends { metadata?: { selected?: boolean } }>({
+const CheckBox = <T,>({
 	row,
 	setCheckBoxSelection,
-}: RowColumnProps<T>) => {
-	const selected = row?.metadata?.selected || false;
+}: CheckboxRowColumnProps<T>) => {
+	// lame hack but that's what the compiler told me to do.
+	const unknownMetadata = row['metadata' as keyof T] as unknown;
+	const { selected, disabled } = unknownMetadata as RowMetadata;
 	if (!row) {
 		return null;
 	}
@@ -25,7 +29,8 @@ const CheckBox = <T extends { metadata?: { selected?: boolean } }>({
 		<div>
 			<input
 				type='checkbox'
-				checked={selected}
+				checked={!!(selected && !disabled)}
+				disabled={disabled}
 				onChange={() =>
 					setCheckBoxSelection && setCheckBoxSelection(row)
 				}
@@ -49,11 +54,44 @@ const HeaderCheckBox = <T,>({
 	);
 };
 
-export const bulkSelectionColumn = <T,>(): TableColumn<T> => {
+export const bulkSelectionColumn = <T,>({
+	workingData,
+	updateWorkingData,
+	allSelected,
+	setAllSelected,
+	identityColumn,
+}: BulkPropsType<T>): TableColumn<T> => {
+	const setCheckBoxSelection = (row: T): void => {
+		const id = identityColumn as keyof T;
+		updateWorkingData(
+			workingData.map((r) => {
+				if (r[id] === row[id]) {
+					r.metadata.selected = !r.metadata.selected;
+				}
+				return r;
+			})
+		);
+		if (allSelected) {
+			setAllSelected(false);
+		}
+	};
+
+	const toggleSelectAll = () => {
+		updateWorkingData(
+			workingData.map((row) => {
+				return {
+					...row,
+					metadata: { ...row.metadata, selected: !allSelected },
+				};
+			})
+		);
+		setAllSelected(!allSelected);
+	};
+
 	return {
 		propertyName: 'checkbox',
 		width: '30px',
-		rowColumnComponent: ({ column, value, row, setCheckBoxSelection }) => (
+		rowColumnComponent: ({ column, value, row }) => (
 			<CheckBox
 				column={column}
 				value={value}
@@ -61,7 +99,7 @@ export const bulkSelectionColumn = <T,>(): TableColumn<T> => {
 				row={row}
 			/>
 		),
-		headerColumnComponent: ({ column, toggleSelectAll, allSelected }) => (
+		headerColumnComponent: ({ column }) => (
 			<HeaderCheckBox
 				column={column}
 				allSelected={allSelected}

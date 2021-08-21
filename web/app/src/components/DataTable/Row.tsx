@@ -1,31 +1,28 @@
 import React from 'react';
 import { RowCell } from './RowCell';
-import { TableColumn } from './DataTable';
 import styled from 'styled-components';
-
-type TableRowProps<T> = {
-	columns: TableColumn<T>[];
-	dataRow: T;
-	setCheckBoxSelection?: (row: T) => void;
-};
+import { TableRowProps } from './types.d';
 
 const Row = <T,>({
 	columns,
 	dataRow,
-	setCheckBoxSelection,
+	rowDecorator,
 }: TableRowProps<T>): JSX.Element | null => {
 	const cells = columns.map((column, idx) => {
 		let dataValue = dataRow[column.propertyName as keyof T];
 		let component;
 		if (column.formatProperty) {
-			dataValue = column.formatProperty({ column, value: dataValue });
+			dataValue = column.formatProperty({
+				column,
+				value: dataValue,
+				row: dataRow,
+			});
 		}
 		if (column.rowColumnComponent) {
 			component = column.rowColumnComponent({
 				column: column,
 				value: dataValue,
 				row: dataRow,
-				setCheckBoxSelection,
 			});
 		}
 
@@ -38,17 +35,38 @@ const Row = <T,>({
 		);
 	});
 
+	const Decorator = rowDecorator ? rowDecorator(dataRow) : undefined;
+	if (Decorator) {
+		return (
+			<Decorator dataRow={dataRow}>
+				<StyledRow>{cells}</StyledRow>
+			</Decorator>
+		);
+	}
 	return <StyledRow>{cells}</StyledRow>;
 };
 
 export { Row };
 
-const StyledRow = styled.div`
-	border-bottom: 1px solid #e0e0e0;
+const StyledRow = styled.div(
+	({ theme: { boxShadow } }) => `
+ 	border-bottom: 1px solid #e0e0e0;
 	border-collapse: collapse;
 	display: flex;
+	height: 24px;
+	
+	transition: 0.15s ease all;
+
 
 	&:nth-child(even) {
 		background-color: #f6f6f6;
 	}
-`;
+
+	&:hover {
+		box-shadow: ${boxShadow.standard};
+		position: relative;
+		top: 0;
+		z-index: 2;
+	}
+	`
+);

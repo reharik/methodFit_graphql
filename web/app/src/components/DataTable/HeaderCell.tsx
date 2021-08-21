@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import { TableColumn, SortDir } from './DataTable';
 import styled from 'styled-components';
-
-type HeaderCellProps<T> = {
-	column: TableColumn<T>;
-	value: string | JSX.Element;
-	onSortData: (sortDir: SortDir, sortProperty: string) => void;
-};
+import { HeaderCellProps, SortDir } from './types.d';
+import { SortArrow } from './SortArrow';
 
 const HeaderCell = <T,>({
 	column,
@@ -26,8 +21,8 @@ const HeaderCell = <T,>({
 	const sortProp = column.sortable ? { onClick: () => onSort() } : {};
 	return (
 		<StyledHeaderCell width={column.width || '100px'} {...sortProp}>
-			{value}
-			{column.sortable ? <StyledAsc>^</StyledAsc> : null}
+			<StyledSpan>{value}</StyledSpan>
+			{column.sortable ? <SortArrow sortDir={sortDir} /> : null}
 		</StyledHeaderCell>
 	);
 };
@@ -38,18 +33,32 @@ interface StyledHeaderCellProps {
 }
 
 const StyledHeaderCell = styled.div<StyledHeaderCellProps>(
-	({ width }) => `
-		width: ${width};
-    	border-left: 1px solid #d3d3d3;
-		&:first-child {
-    		border-left: none;
-		}
+	({ width, theme: { color, spacing } }) => `
+	padding: 0 ${spacing.sm};
+	box-sizing: border-box;
+	width: ${width};
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	transition: 0.2s ease all;
+	
+	&:first-child {
+		border-left: none;
+	}
+
+	&:hover {
+		background: ${color.cellHoverBg};
+		cursor: pointer;
+	}
 	`
 );
 
-const StyledAsc = styled.span`
-	width: 16px;
-	height: 10px;
-	text-align: center;
-	font-weight: bold;
-`;
+const StyledSpan = styled.span(
+	({ theme: { weight } }) => `
+	dispaly: flex;
+	align-items: center;
+	height: auto;
+	margin: 0;
+	font-weight: ${weight.medium};
+	`
+);

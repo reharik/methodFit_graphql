@@ -5,11 +5,16 @@ type Success {
 	success: Boolean!
 }
 
+type DeleteSessionsResponse {
+	success: Boolean!
+	sessions: [Session]
+}
+
 type Query {
 	# User
 	users: [User]!
 	user(id: ID!): User
-	sessions(clientId: ID!): [Session]!
+	purchases(clientId: ID!, paymentId: ID!): [Session]!
 }
 
 type Mutation {
@@ -18,5 +23,5 @@ type Mutation {
 	UpdateUser(id: ID!, user: UserUpdateInput): User!
 
 	#Payment
-	deleteSessions(sessions: SessionDeleteInput!): Success!
+	deleteSessions(input: SessionDeleteInput!): DeleteSessionsResponse
 }

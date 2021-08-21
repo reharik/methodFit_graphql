@@ -11,14 +11,16 @@ declare module 'styled-components' {
 			/** 801 px and up */
 			desktopUp: string;
 		};
-
 		borderRadius: {
 			/** 4px, 0.25rem */
 			md: string;
 			/** 4px, 0.25rem */
 			btn: string;
 		};
-
+		boxShadow: {
+			/* Standard Shadow - Light */
+			standard: string;
+		};
 		spacing: {
 			/** 4px, 0.25rem */
 			xs: string;
@@ -37,53 +39,31 @@ declare module 'styled-components' {
 			/** 56px, 3.5rem */
 			xxxxl: string;
 		};
-
 		baseFont: string;
 		fontSize: {
-			/** 12px, 0.75rem */
-			__25__: string;
-			/** 14px, 0.875rem */
-			__50__: string;
-			/** 16px, 1rem */
-			__100__: string;
-			/** 18px, 1.125rem */
-			__200__: string;
-			/** 19px, 1.1875rem */
-			__250__: string;
-			/** 20px, 1.25rem */
-			__300__: string;
-			/** 22px, 1.375rem */
-			__350__: string;
-			/** 24px, 1.5rem */
-			__400__: string;
-			/** 28px, 1.75rem */
-			__500__: string;
-			/** 32px, 2rem */
-			__600__: string;
-			/** 40px, 2.5rem */
-			__700__: string;
-			/** 48px, 3rem */
-			__800__: string;
-			/** 56px, 3.5rem */
-			__900__: string;
-			/** 64px, 4rem */
-			__1000__: string;
+			_36: string;
+			_32: string;
+			_24: string;
+			_21: string;
+			_18: string;
+			_16: string;
+			_14: string;
+			_12: string;
+			_10: string;
 		};
 		weight: {
-			/** 300 */
 			light: number;
-			/** 400, normal */
 			regular: number;
-			/** 600 */
-			semiBold: number;
-			/** 700, bold */
+			medium: number;
+			semi: number;
 			bold: number;
 		};
-
 		color: {
 			/* ---- GENERAL ---- */
 			white: string;
 			black: string;
+
+			/* ---- BODY ---- */
 			body: string;
 			bodyText: string;
 
@@ -104,14 +84,17 @@ declare module 'styled-components' {
 			/* ---- BUTTONS ---- */
 			primaryButtonBg: string;
 			primaryButtonHover: string;
-			buttonDisabledHover: string;
+			primaryButtonFocusBorder: string;
+			secondaryButtonBg: string;
+			secondaryButtonColor: string;
+			secondaryButtonBorder: string;
+			secondaryButtonFocusBorder: string;
 			buttonDisabled: string;
 
 			/* ---- ALERTS ---- */
 			alertError: string;
 			alertErrorText: string;
 			alertInfoText: string;
-			alertInfo: string;
 			alertWarning: string;
 			alertWarningText: string;
 			alertSuccess: string;
@@ -119,14 +102,27 @@ declare module 'styled-components' {
 
 			/* ---- FORMS ---- */
 			formError: string;
-			formDefault: string;
+			inputBorder: string;
 			formText: string;
 			label: string;
 			inputHover: string;
+			inputFocus: string;
+
+			/* ---- DATA TABLE ---- */
+			headerBorder: string;
+			cellHoverBg: string;
+			activeText: string;
+			invitedText: string;
+			deactivatedText: string;
+			titleText: string;
 
 			/* ---- LOADING ---- */
 			loadingSpinner: string;
 			loadingDot: string;
+
+			/* ---- TEXT ---- */
+			textDisabled: string;
+			textInfo: string;
 		};
 	}
 }

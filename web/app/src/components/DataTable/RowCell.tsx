@@ -1,10 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
-
-type TableRowCellProps<T> = {
-	width: string;
-	text: T[keyof T] | JSX.Element;
-};
+import { TableRowCellProps } from './types.d';
 
 const RowCell = <T,>({ text, width }: TableRowCellProps<T>): JSX.Element => {
 	return <StyledRowCell width={width}>{text}</StyledRowCell>;
@@ -17,7 +12,11 @@ interface StyledRowCellProps {
 }
 
 const StyledRowCell = styled.div<StyledRowCellProps>(
-	({ width }) => `
-		width: ${width}
+	({ width, theme: { spacing } }) => `
+	padding: ${spacing.xs} ${spacing.sm};	
+	width: ${width};
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 `
 );

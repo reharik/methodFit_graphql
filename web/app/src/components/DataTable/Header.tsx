@@ -1,22 +1,11 @@
 import React from 'react';
 import { HeaderCell } from './HeaderCell';
-import { TableColumn, SortDir } from './DataTable';
 import titleize from 'titleize';
 import humanizeString from 'humanize-string';
 import styled from 'styled-components';
+import { HeaderProps } from './types.d';
 
-type HeaderProps<T> = {
-	columns: TableColumn<T>[];
-	onSortData: (sortDir: SortDir, sortProperty: string) => void;
-	toggleSelectAll?: () => void;
-	allSelected?: boolean;
-};
-const Header = <T,>({
-	columns,
-	onSortData,
-	toggleSelectAll,
-	allSelected,
-}: HeaderProps<T>): JSX.Element => {
+const Header = <T,>({ columns, onSortData }: HeaderProps<T>): JSX.Element => {
 	return (
 		<StyledHeader>
 			{columns.map((column, idx) => {
@@ -24,8 +13,6 @@ const Header = <T,>({
 				if (column.headerColumnComponent) {
 					value = column.headerColumnComponent({
 						column,
-						toggleSelectAll,
-						allSelected,
 					});
 				} else if (column.headerDisplay) {
 					value = column.headerDisplay;
@@ -55,8 +42,8 @@ const StyledHeader = styled.div`
 	background-color: #ffeedb;
 	border-bottom: 1px solid #e0e0e0;
 	color: #555555;
-	font-size: 11px;
+	font-size: 14px;
 	font-weight: bold;
-	height: 28px;
+	height: 32px;
 	display: flex;
 `;

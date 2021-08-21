@@ -5,37 +5,66 @@ const colors = {
 	black: '#000000',
 	white: '#ffffff',
 
-	purple: '#5A71C6',
-	blue: '#087dae',
-	light_blue: '#1daae5',
-	green_blue: '#009EA1',
-	green: '#009EA1',
-	light_green: '#CBE4B9',
-	yellow: '#5A71C6',
-	light_yellow: '#FFEABB',
-	orange: '#5A71C6',
-	red: '#EF463B',
-	light_red: '#FDD6CE',
-	deep_red: '#A04937',
-	brown: '#6D5D39',
-	moonlight: '#171820',
-	light_gray: '#e5e4e8',
-	dark_blue_gray: '#676671',
-	seal_gray: '#92919B',
-	outline_gray: '#BEBEBE',
-	elephant_gray: '#D9D1D1',
-	lightest_gray: '#F2F1F3',
-	eggshell: '#F9F9F9',
+	blue: '#087DAE',
+	blue_light: '#14B2F4',
+	blue_lighter: '#62CCF8',
+	blue_lightest: '#B1E5FB',
+	blue_ultraLight: '#EEF8FF',
+	blue_dark: '#065E83',
+	blue_darker: '#043E57',
+	blue_darkest: '#021F2C',
 
-	sl_gray_90: '#242a30',
-	sl_gray_100: '#f2f2f2',
+	yellow: '#FFCA28',
+	yellow_light: '#FFD75E',
+	yellow_lighter: '#FFE494',
+	yellow_lightest: '#FFF2C9',
+	yellow_dark: '#DDA700',
+	yellow_darker: '#936F00',
+	yellow_darkest: '#4A3800',
 
-	sl_green_60: '#438e29',
-	sl_green_70: '#346f20',
+	green: '#86C65A',
+	green_light: '#A4D483',
+	green_lighter: '#C3E3AC',
+	green_lightest: '#E1F1D6',
+	green_dark: '#6DB63A',
+	green_darker: '#52862E',
+	green_darkest: '#31501C',
 
-	sl_blue_60: '#31a7a8',
-	sl_gray_30: '#dce0e6',
-	sl_gray_50: '#86919d',
+	teal: '#009EA1',
+	teal_light: '#04BFBF',
+	teal_lighter: '#68DCDC',
+	teal_lightest: '#B4E8E8',
+	teal_dark: '#008A8D',
+	teal_darker: '#006365',
+	teal_darkest: '#003B3C',
+
+	orange: '#FA5633',
+	orange_light: '#FB8066',
+	orange_lighter: '#FCAB99',
+	orange_lightest: '#FED5CC',
+	orange_ultraLight: '#FFF8F8',
+	orange_dark: '#E24827',
+	orange_darker: '#B82405',
+	orange_darkest: '#6E1603',
+
+	purple: '#5867E8',
+	purple_light: '#828DEE',
+	purple_lighter: '#ACB3F3',
+	purple_lightest: '#D5D9F9',
+	purple_dark: '#1D30D3',
+	purple_darker: '#13208D',
+	purple_darkest: '#0A1046',
+
+	gray_10: '#171820',
+	gray_20: '#404040',
+	gray_30: '#676671',
+	gray_40: '#92919B',
+	gray_50: '#BBBAC0',
+	gray_60: '#D9D8DC',
+	gray_70: '#E5E4E8',
+	gray_80: '#F2F1F3',
+	gray_90: '#F9F9F9',
+	gray_OLD: '#E8E8E8',
 };
 
 export enum MaxWidthBreakpoint {
@@ -69,6 +98,10 @@ export const theme: DefaultTheme = {
 		/** 4px, 0.25rem */
 		btn: '0.25rem',
 	},
+	boxShadow: {
+		/* Standard Shadow - Light */
+		standard: '0px 2px 10px rgba(23, 24, 32, 0.1);',
+	},
 	spacing: {
 		/** 4px, 0.25rem */
 		xs: '0.25rem',
@@ -89,43 +122,21 @@ export const theme: DefaultTheme = {
 	},
 	baseFont: '"IBM Plex Sans", sans-serif',
 	fontSize: {
-		/** 12px, 0.75rem */
-		__25__: '0.75rem',
-		/** 14px, 0.875rem */
-		__50__: '0.875rem',
-		/** 16px, 1rem */
-		__100__: '1rem',
-		/** 18px, 1.125rem */
-		__200__: '1.125rem',
-		/** 19px, 1.1875rem */
-		__250__: '1.1875rem',
-		/** 20px, 1.25rem */
-		__300__: '1.25rem',
-		/** 22px, 1.375rem */
-		__350__: '1.375rem',
-		/** 24px, 1.5rem */
-		__400__: '1.5rem',
-		/** 28px, 1.75rem */
-		__500__: '1.75rem',
-		/** 32px, 2rem */
-		__600__: '2rem',
-		/** 40px, 2.5rem */
-		__700__: '2.5rem',
-		/** 48px, 3rem */
-		__800__: '3rem',
-		/** 56px, 3.5rem */
-		__900__: '3.5rem',
-		/** 64px, 4rem */
-		__1000__: '4rem',
+		_36: '36px',
+		_32: '32px',
+		_24: '24px',
+		_21: '21px',
+		_18: '18px',
+		_16: '16px',
+		_14: '14px',
+		_12: '12px',
+		_10: '10px',
 	},
 	weight: {
-		/** 300 */
 		light: 300,
-		/** 400, normal */
 		regular: 400,
-		/** 600 */
-		semiBold: 600,
-		/** 700, bold */
+		medium: 500,
+		semi: 600,
 		bold: 700,
 	},
 	color: {
@@ -134,48 +145,64 @@ export const theme: DefaultTheme = {
 		black: colors.black,
 
 		/* ---- BODY ---- */
-		body: colors.eggshell,
-		bodyText: colors.moonlight,
+		body: colors.gray_90,
+		bodyText: colors.gray_10,
 
 		/* ---- LINKS ---- */
-		link: colors.blue,
-		linkVisited: colors.purple,
-		linkHover: colors.light_blue,
-		linkActive: colors.purple,
-		linkSelected: colors.blue,
-		linkDisabled: colors.dark_blue_gray,
+		link: colors.purple_dark,
+		linkVisited: colors.purple_dark,
+		linkHover: colors.purple_dark,
+		linkActive: colors.purple_dark,
+		linkSelected: colors.purple_dark,
+		linkDisabled: colors.gray_30,
 
 		/* ---- MENU ---- */
-		menuText: colors.dark_blue_gray,
-		menuActiveText: colors.moonlight,
-		menuActiveBg: colors.light_gray,
-		menuHoverBg: colors.eggshell,
+		menuText: colors.gray_30,
+		menuActiveText: colors.gray_10,
+		menuActiveBg: colors.gray_70,
+		menuHoverBg: colors.gray_90,
 
 		/* ---- BUTTONS ---- */
 		primaryButtonBg: colors.blue,
-		primaryButtonHover: colors.light_blue,
-		buttonDisabledHover: colors.light_gray,
-		buttonDisabled: colors.blue,
+		primaryButtonHover: colors.blue_light,
+		primaryButtonFocusBorder: colors.gray_30,
+		secondaryButtonBg: colors.white,
+		secondaryButtonColor: colors.blue,
+		secondaryButtonBorder: colors.blue,
+		secondaryButtonFocusBorder: colors.gray_30,
+		buttonDisabled: colors.gray_OLD,
 
 		/* ---- ALERTS ---- */
-		alertError: colors.light_red,
-		alertErrorText: colors.deep_red,
+		alertError: colors.orange,
+		alertErrorText: colors.orange,
 		alertInfoText: colors.blue,
-		alertInfo: colors.light_blue,
-		alertWarning: colors.light_yellow,
-		alertWarningText: colors.brown,
-		alertSuccess: colors.light_green,
+		alertWarning: colors.yellow,
+		alertWarningText: colors.yellow,
+		alertSuccess: colors.green,
 		alertSuccessText: colors.green,
 
 		/* ---- FORMS ---- */
-		formError: colors.red,
-		formDefault: colors.outline_gray,
-		formText: colors.dark_blue_gray,
+		formError: colors.orange_darker,
+		inputBorder: colors.gray_60,
+		formText: colors.gray_30,
 		label: colors.blue,
 		inputHover: colors.blue,
+		inputFocus: colors.blue,
+
+		/* ---- DATA TABLE ---- */
+		headerBorder: colors.gray_60,
+		cellHoverBg: colors.gray_90,
+		activeText: colors.green_darker,
+		invitedText: colors.gray_10,
+		deactivatedText: colors.orange_darker,
+		titleText: colors.gray_10,
 
 		/* ---- LOADING ---- */
 		loadingSpinner: colors.white,
 		loadingDot: colors.white,
+
+		/* ---- TEXT ---- */
+		textDisabled: colors.gray_40,
+		textInfo: colors.gray_30,
 	},
 };

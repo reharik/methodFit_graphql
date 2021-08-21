@@ -11,17 +11,11 @@ const sqlConfig = {
 		trustServerCertificate: true,
 	},
 };
-console.log(`************sqlConfig************`);
-console.log(sqlConfig);
-console.log(`********END sqlConfig************`);
 
-export const buildContext = async (/*{req}*/): Promise<unknown> => {
-	try {
-		await sql.connect(sqlConfig);
-	} catch (err) {
-		console.log(`************"WTF"************`);
-		console.log(err);
-		console.log(`********END "WTF"************`);
-	}
-	return { sql };
+export type SQL = sql.ConnectionPool;
+export type ContextType = { sql: SQL };
+
+export const buildContext = async (/*{req}*/): Promise<ContextType> => {
+	const sqlConnectionPool = await sql.connect(sqlConfig);
+	return { sql: sqlConnectionPool };
 };

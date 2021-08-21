@@ -24,11 +24,17 @@ export enum CacheControlScope {
 }
 
 
+export type DeleteSessionsResponse = {
+  __typename?: 'DeleteSessionsResponse';
+  success: Scalars['Boolean'];
+  sessions?: Maybe<Array<Maybe<Session>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   CreateUser: User;
   UpdateUser: User;
-  deleteSessions: Success;
+  deleteSessions?: Maybe<DeleteSessionsResponse>;
 };
 
 
@@ -44,14 +50,14 @@ export type MutationUpdateUserArgs = {
 
 
 export type MutationDeleteSessionsArgs = {
-  sessions: SessionDeleteInput;
+  input: SessionDeleteInput;
 };
 
 export type Query = {
   __typename?: 'Query';
   users: Array<Maybe<User>>;
   user?: Maybe<User>;
-  sessions: Array<Maybe<Session>>;
+  purchases: Array<Maybe<Session>>;
 };
 
 
@@ -60,8 +66,9 @@ export type QueryUserArgs = {
 };
 
 
-export type QuerySessionsArgs = {
+export type QueryPurchasesArgs = {
   clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
 };
 
 export type Session = {
@@ -74,10 +81,13 @@ export type Session = {
   TrainerPaid?: Maybe<Scalars['Boolean']>;
   InArrears?: Maybe<Scalars['Boolean']>;
   ClientId: Scalars['ID'];
+  TrainerId: Scalars['ID'];
 };
 
 export type SessionDeleteInput = {
-  sessions: Array<Maybe<Scalars['ID']>>;
+  sessions: Array<Scalars['ID']>;
+  clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
 };
 
 export type Success = {
@@ -111,23 +121,43 @@ export type UserUpdateInput = {
   lastName: Scalars['String'];
 };
 
-export type GetSessionsQueryVariables = Exact<{
+export type GetPurchaseSessionsQueryVariables = Exact<{
   clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
 }>;
 
 
-export type GetSessionsQuery = (
+export type GetPurchaseSessionsQuery = (
   { __typename?: 'Query' }
-  & { sessions: Array<Maybe<(
+  & { purchases: Array<Maybe<(
     { __typename?: 'Session' }
     & Pick<Session, 'EntityId' | 'CreatedDate' | 'Cost' | 'AppointmentType' | 'SessionUsed' | 'TrainerPaid' | 'InArrears' | 'ClientId'>
   )>> }
 );
 
+export type RemovePurchaseSessionsMutationVariables = Exact<{
+  sessionIds: Array<Scalars['ID']> | Scalars['ID'];
+  clientId: Scalars['ID'];
+  paymentId: Scalars['ID'];
+}>;
 
-export const GetSessionsDocument = gql`
-    query GetSessions($clientId: ID!) {
-  sessions(clientId: $clientId) {
+
+export type RemovePurchaseSessionsMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteSessions?: Maybe<(
+    { __typename?: 'DeleteSessionsResponse' }
+    & Pick<DeleteSessionsResponse, 'success'>
+    & { sessions?: Maybe<Array<Maybe<(
+      { __typename?: 'Session' }
+      & Pick<Session, 'EntityId' | 'CreatedDate' | 'Cost' | 'AppointmentType' | 'SessionUsed' | 'TrainerPaid' | 'InArrears' | 'ClientId'>
+    )>>> }
+  )> }
+);
+
+
+export const GetPurchaseSessionsDocument = gql`
+    query GetPurchaseSessions($clientId: ID!, $paymentId: ID!) {
+  purchases(clientId: $clientId, paymentId: $paymentId) {
     EntityId
     CreatedDate
     Cost
@@ -141,29 +171,77 @@ export const GetSessionsDocument = gql`
     `;
 
 /**
- * __useGetSessionsQuery__
+ * __useGetPurchaseSessionsQuery__
  *
- * To run a query within a React component, call `useGetSessionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetPurchaseSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPurchaseSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSessionsQuery({
+ * const { data, loading, error } = useGetPurchaseSessionsQuery({
  *   variables: {
  *      clientId: // value for 'clientId'
+ *      paymentId: // value for 'paymentId'
  *   },
  * });
  */
-export function useGetSessionsQuery(baseOptions: Apollo.QueryHookOptions<GetSessionsQuery, GetSessionsQueryVariables>) {
+export function useGetPurchaseSessionsQuery(baseOptions: Apollo.QueryHookOptions<GetPurchaseSessionsQuery, GetPurchaseSessionsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetSessionsQuery, GetSessionsQueryVariables>(GetSessionsDocument, options);
+        return Apollo.useQuery<GetPurchaseSessionsQuery, GetPurchaseSessionsQueryVariables>(GetPurchaseSessionsDocument, options);
       }
-export function useGetSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSessionsQuery, GetSessionsQueryVariables>) {
+export function useGetPurchaseSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPurchaseSessionsQuery, GetPurchaseSessionsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetSessionsQuery, GetSessionsQueryVariables>(GetSessionsDocument, options);
+          return Apollo.useLazyQuery<GetPurchaseSessionsQuery, GetPurchaseSessionsQueryVariables>(GetPurchaseSessionsDocument, options);
         }
-export type GetSessionsQueryHookResult = ReturnType<typeof useGetSessionsQuery>;
-export type GetSessionsLazyQueryHookResult = ReturnType<typeof useGetSessionsLazyQuery>;
-export type GetSessionsQueryResult = Apollo.QueryResult<GetSessionsQuery, GetSessionsQueryVariables>;
+export type GetPurchaseSessionsQueryHookResult = ReturnType<typeof useGetPurchaseSessionsQuery>;
+export type GetPurchaseSessionsLazyQueryHookResult = ReturnType<typeof useGetPurchaseSessionsLazyQuery>;
+export type GetPurchaseSessionsQueryResult = Apollo.QueryResult<GetPurchaseSessionsQuery, GetPurchaseSessionsQueryVariables>;
+export const RemovePurchaseSessionsDocument = gql`
+    mutation RemovePurchaseSessions($sessionIds: [ID!]!, $clientId: ID!, $paymentId: ID!) {
+  deleteSessions(
+    input: {sessions: $sessionIds, clientId: $clientId, paymentId: $paymentId}
+  ) {
+    success
+    sessions {
+      EntityId
+      CreatedDate
+      Cost
+      AppointmentType
+      SessionUsed
+      TrainerPaid
+      InArrears
+      ClientId
+    }
+  }
+}
+    `;
+export type RemovePurchaseSessionsMutationFn = Apollo.MutationFunction<RemovePurchaseSessionsMutation, RemovePurchaseSessionsMutationVariables>;
+
+/**
+ * __useRemovePurchaseSessionsMutation__
+ *
+ * To run a mutation, you first call `useRemovePurchaseSessionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovePurchaseSessionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removePurchaseSessionsMutation, { data, loading, error }] = useRemovePurchaseSessionsMutation({
+ *   variables: {
+ *      sessionIds: // value for 'sessionIds'
+ *      clientId: // value for 'clientId'
+ *      paymentId: // value for 'paymentId'
+ *   },
+ * });
+ */
+export function useRemovePurchaseSessionsMutation(baseOptions?: Apollo.MutationHookOptions<RemovePurchaseSessionsMutation, RemovePurchaseSessionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemovePurchaseSessionsMutation, RemovePurchaseSessionsMutationVariables>(RemovePurchaseSessionsDocument, options);
+      }
+export type RemovePurchaseSessionsMutationHookResult = ReturnType<typeof useRemovePurchaseSessionsMutation>;
+export type RemovePurchaseSessionsMutationResult = Apollo.MutationResult<RemovePurchaseSessionsMutation>;
+export type RemovePurchaseSessionsMutationOptions = Apollo.BaseMutationOptions<RemovePurchaseSessionsMutation, RemovePurchaseSessionsMutationVariables>;

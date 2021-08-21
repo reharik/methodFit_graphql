@@ -1,31 +1,29 @@
-import React from "react";
-import {DateTime} from "luxon";
+import { DateTime } from 'luxon';
 
 export const columns = [
 	{
 		propertyName: 'CreatedDate',
 		headerDisplay: 'Purchase Date',
-		rowColumnComponent: ({ value }:{value:string}):JSX.Element => {
-			return (<span>{DateTime.fromISO(value).toFormat('yyyy LLL dd')}</span>)
+		formatProperty: ({ value }: { value: string }): string => {
+			return DateTime.fromISO(value).toFormat('yyyy LLL dd');
 		},
-		sortable: true,
+		width: '175px',
 	},
 	{
 		propertyName: 'AppointmentType',
-		width:"150px",
-		sortable: true,
+		width: '200px',
 	},
 	{
 		propertyName: 'Cost',
-		rowColumnComponent: ({ value }:{value:number}):JSX.Element => {
-			return (<span>{`$${value || 0}`}</span>)
+		formatProperty: ({ value }: { value: number }): number => {
+			return value || 0;
 		},
 	},
 	{
 		propertyName: 'SessionUsed',
-		rowColumnComponent: ({ value }:{value:boolean}):JSX.Element => {
-			return (<span>{value.toString()}</span>)
+		formatProperty: ({ value }: { value: boolean }): string => {
+			return value.toString();
 		},
-		sortable: true	},
-	
+		width: '175px',
+	},
 ];

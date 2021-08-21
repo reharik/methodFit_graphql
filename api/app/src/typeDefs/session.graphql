@@ -7,8 +7,11 @@ type Session {
 	TrainerPaid: Boolean
 	InArrears: Boolean
 	ClientId: ID!
+	TrainerId: ID!
 }
 
 input SessionDeleteInput {
-	sessions: [ID]!
+	sessions: [ID!]!
+	clientId: ID!
+	paymentId: ID!
 }
