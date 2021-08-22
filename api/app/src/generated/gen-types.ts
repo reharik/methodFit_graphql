@@ -1,5 +1,4 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Context } from './';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -24,20 +23,7 @@ export type DeleteSessionsResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  CreateUser: User;
-  UpdateUser: User;
   deleteSessions?: Maybe<DeleteSessionsResponse>;
-};
-
-
-export type MutationCreateUserArgs = {
-  user: UserCreateInput;
-};
-
-
-export type MutationUpdateUserArgs = {
-  id: Scalars['ID'];
-  user?: Maybe<UserUpdateInput>;
 };
 
 
@@ -47,14 +33,7 @@ export type MutationDeleteSessionsArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  users: Array<Maybe<User>>;
-  user?: Maybe<User>;
   purchases: Array<Maybe<Session>>;
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -85,31 +64,6 @@ export type SessionDeleteInput = {
 export type Success = {
   __typename?: 'Success';
   success: Scalars['Boolean'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  email: Scalars['String'];
-  token?: Maybe<Scalars['String']>;
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type UserCreateInput = {
-  id: Scalars['ID'];
-  password: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-};
-
-export type UserUpdateInput = {
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
 };
 
 
@@ -199,16 +153,13 @@ export type ResolversTypes = {
   DeleteSessionsResponse: ResolverTypeWrapper<any>;
   Boolean: ResolverTypeWrapper<any>;
   Mutation: ResolverTypeWrapper<{}>;
-  ID: ResolverTypeWrapper<any>;
   Query: ResolverTypeWrapper<{}>;
+  ID: ResolverTypeWrapper<any>;
   Session: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
   SessionDeleteInput: ResolverTypeWrapper<any>;
   Success: ResolverTypeWrapper<any>;
-  User: ResolverTypeWrapper<any>;
-  UserCreateInput: ResolverTypeWrapper<any>;
-  UserUpdateInput: ResolverTypeWrapper<any>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -217,41 +168,34 @@ export type ResolversParentTypes = {
   DeleteSessionsResponse: any;
   Boolean: any;
   Mutation: {};
-  ID: any;
   Query: {};
+  ID: any;
   Session: any;
   Int: any;
   String: any;
   SessionDeleteInput: any;
   Success: any;
-  User: any;
-  UserCreateInput: any;
-  UserUpdateInput: any;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
-export type DeleteSessionsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteSessionsResponse'] = ResolversParentTypes['DeleteSessionsResponse']> = {
+export type DeleteSessionsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteSessionsResponse'] = ResolversParentTypes['DeleteSessionsResponse']> = {
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   sessions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Session']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  CreateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'user'>>;
-  UpdateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id'>>;
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   deleteSessions?: Resolver<Maybe<ResolversTypes['DeleteSessionsResponse']>, ParentType, ContextType, RequireFields<MutationDeleteSessionsArgs, 'input'>>;
 };
 
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   purchases?: Resolver<Array<Maybe<ResolversTypes['Session']>>, ParentType, ContextType, RequireFields<QueryPurchasesArgs, 'clientId' | 'paymentId'>>;
 };
 
-export type SessionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
+export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
   EntityId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   CreatedDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   Cost?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -264,30 +208,18 @@ export type SessionResolvers<ContextType = Context, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SuccessResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Success'] = ResolversParentTypes['Success']> = {
+export type SuccessResolvers<ContextType = any, ParentType extends ResolversParentTypes['Success'] = ResolversParentTypes['Success']> = {
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type Resolvers<ContextType = Context> = {
+export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   DeleteSessionsResponse?: DeleteSessionsResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Session?: SessionResolvers<ContextType>;
   Success?: SuccessResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 };
 
 
@@ -295,4 +227,4 @@ export type Resolvers<ContextType = Context> = {
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = Context> = Resolvers<ContextType>;
+export type IResolvers<ContextType = any> = Resolvers<ContextType>;

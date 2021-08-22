@@ -9,6 +9,9 @@ const createUri = (config: Config) => {
 };
 
 async function startApolloServer() {
+	console.log(`************typeDefs************`);
+	console.log(typeDefs);
+	console.log(`********END typeDefs************`);
 	const server = new ApolloServer({
 		typeDefs,
 		resolvers,

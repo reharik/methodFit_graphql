@@ -4,11 +4,11 @@
 	"main": "app/index.ts",
 	"license": "MIT",
 	"scripts": {
-		"start:production": "tsc --project .; node --experimental-specifier-resolution=node  ./app/build/index.js",
+		"start:production": "tsc --project .;cp -R ./app/src/typeDefs ./app/build/src/typeDefs; node --experimental-specifier-resolution=node  ./app/build/index.js",
 		"start:dev": "nodemon",
 		"lint": "eslint ./app/src",
 		"pretty": "prettier --check ./app/src",
-		"build": "tsc --project ./app",
+		"build": "tsc --project ./",
 		"gen": "graphql-codegen --config codegen.yml"
 	},
 	"dependencies": {

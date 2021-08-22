@@ -12,16 +12,10 @@ type DeleteSessionsResponse {
 
 type Query {
 	# User
-	users: [User]!
-	user(id: ID!): User
 	purchases(clientId: ID!, paymentId: ID!): [Session]!
 }
 
 type Mutation {
-	# User
-	CreateUser(user: UserCreateInput!): User!
-	UpdateUser(id: ID!, user: UserUpdateInput): User!
-
 	#Payment
 	deleteSessions(input: SessionDeleteInput!): DeleteSessionsResponse
 }
